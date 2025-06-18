@@ -7,54 +7,98 @@
     body {
       margin: 0;
       padding: 0;
-      background: linear-gradient(to bottom right, #ffccd5, #ffe5ec);
+      background: linear-gradient(120deg, #ffc1cc, #ffe4ec);
       font-family: 'Segoe UI', sans-serif;
-      color: #333;
+      color: #f5f5f5;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       flex-direction: column;
       text-align: center;
+      animation: backgroundShift 20s ease infinite;
+    }
+
+    @keyframes backgroundShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
     }
 
     h1 {
-      font-size: 2.5em;
-      margin-bottom: 20px;
+      font-size: 2.8em;
+      margin-bottom: 10px;
+      color: #4B0082;
+      animation: fadeIn 2s ease forwards;
     }
 
-    #countdown {
-      font-size: 2em;
-      background: white;
-      padding: 20px 40px;
-      border-radius: 20px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .hearts {
-      font-size: 2em;
-      color: #e63946;
+      font-size: 2.5em;
+      color: #ffb3c1;
       margin: 10px 0;
+    }
+
+    #countdown {
+      font-size: 2.2em;
+      background: #ffe6f0;
+      padding: 25px 50px;
+      border-radius: 30px;
+      box-shadow: 0 0 25px rgba(255,255,255,0.1);
+      display: flex;
+      gap: 20px;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .time-box {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: #ffd6e8;
+      border-radius: 15px;
+      padding: 10px 15px;
+      min-width: 70px;
+    }
+
+    .time-box span {
+      font-weight: bold;
+      font-size: 1.5em;
+      color: #C2185B;
+    }
+
+    .label {
+      font-size: 0.8em;
+      margin-top: 5px;
+      color: #ad1457;
     }
   </style>
 </head>
 <body>
 
   <h1>💍 Emad & Sondos 💕<br>Wedding Countdown</h1>
-  <div class="hearts">❤️ 🕊️ 💒</div>
-  <div id="countdown">Loading...</div>
+  <div class="hearts">❤️ 🎂</div>
+  <div id="countdown">
+    <div class="time-box"><span id="days">0</span><div class="label">Days</div></div>
+    <div class="time-box"><span id="hours">0</span><div class="label">Hours</div></div>
+    <div class="time-box"><span id="minutes">0</span><div class="label">Minutes</div></div>
+    <div class="time-box"><span id="seconds">0</span><div class="label">Seconds</div></div>
+  </div>
 
   <script>
-    const weddingDate = new Date("2025-07-02T00:00:00").getTime();
-
-    const countdownElement = document.getElementById("countdown");
+    const targetDate = new Date("2025-07-02T00:00:00").getTime();
 
     function updateCountdown() {
       const now = new Date().getTime();
-      const distance = weddingDate - now;
+      const distance = targetDate - now;
 
       if (distance < 0) {
-        countdownElement.innerHTML = "💍 It's Wedding Day! Congratulations! 🎉";
+        document.getElementById("countdown").innerHTML = "🎊 It's the Wedding Day! Congrats Emad & Sondos! 💕";
         return;
       }
 
@@ -63,12 +107,14 @@
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      countdownElement.innerHTML =
-        `${days}d ${hours}h ${minutes}m ${seconds}s`;
+      document.getElementById("days").textContent = days;
+      document.getElementById("hours").textContent = hours;
+      document.getElementById("minutes").textContent = minutes;
+      document.getElementById("seconds").textContent = seconds;
     }
 
-    updateCountdown(); // Initial call
-    setInterval(updateCountdown, 1000); // Update every second
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
   </script>
 
 </body>
